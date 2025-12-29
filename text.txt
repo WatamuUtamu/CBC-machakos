@@ -1,0 +1,9 @@
+{
+  "name": "CBC Machakos",
+  "short_name": "CBC",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "icons": [{"src": "https://cdn-icons-png.flaticon.com/512/2232/2232688.png", "sizes": "512x512", "type": "image/png"}]
+}
