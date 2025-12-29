@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBC Machakos Guide</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: linear-gradient(135deg, #f0fdf4 0%, #eef2ff 100%); min-height: 100vh; font-family: sans-serif; }
+    .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid white; }
+    .fade-in { animation: fadeIn 0.3s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @media print { .no-print { display: none; } body { background: white; } }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const DATA = {
+      'Grade 7': {
+        focus: 'Junior School Foundations',
+        schools: ['Kangundo JSS', 'Tala Township', 'Koma Rock Primary'],
+        subjects: ['Maths', 'English', 'Science', 'Pre-Technical']
+      },
+      'Grade 8': {
+        focus: 'Career Profiling Stage',
+        schools: ['Matungulu Girls', 'Kangundo High', 'Sengani'],
+        subjects: ['Integrated Science', 'Social Studies', 'Agriculture']
+      },
+      'Grade 9': {
+        focus: 'Pathway Selection (Senior School Preparations)',
+        schools: ['Machakos University TVET', 'Tala Technical Institute'],
+        subjects: ['Pre-Career Studies', 'Creative Arts', 'STEM']
+      }
+    };
+
+    function App() {
+      const [step, setStep] = useState(1);
+      const [grade, setGrade] = useState('');
+
+      const sendWhatsApp = () => {
+        const phone = "254700000000"; // Replace with actual Machakos Education office or your number
+        const message = `Hello, I am a ${grade} student in Machakos. I need help regarding my CBC pathway selection.`;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+      };
+
+      return (
+        <div className="max-w-md mx-auto p-4 text-gray-800">
+          <header className="text-center py-8 no-print">
+            <h1 className="text-3xl font-black text-green-700">CBC Machakos</h1>
+            <p className="text-slate-500 font-medium">Kangundo • Tala • Koma Rock</p>
+          </header>
+
+          {step === 1 ? (
+            <div className="glass p-6 shadow-xl fade-in">
+              <h2 className="text-xl font-bold mb-4 text-center">Which grade are you in?</h2>
+              {Object.keys(DATA).map(g => (
+                <button 
+                  key={g} 
+                  onClick={() => { setGrade(g); setStep(2); }}
+                  className="w-full p-4 mb-3 bg-white border border-slate-200 rounded-xl font-bold text-lg hover:bg-green-50 hover:border-green-300 transition-all shadow-sm"
+                >
+                  {g}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="glass p-6 shadow-xl fade-in">
+              <div className="flex justify-between items-center mb-6">
+                <button onClick={() => setStep(1)} className="text-green-600 font-bold no-print">← Back</button>
+                <button onClick={() => window.print()} className="text-xs bg-slate-100 px-3 py-1 rounded no-print">Save PDF</button>
+              </div>
+
+              <div className="text-center mb-6">
+                <span className="text-4xl">🎓</span>
+                <h2 className="text-2xl font-black mt-2">{grade} Roadmap</h2>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                  <h3 className="text-xs font-black text-green-600 uppercase mb-1">Focus Area</h3>
+                  <p className="font-medium text-slate-700">{DATA[grade].focus}</p>
+                </div>
+
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                  <h3 className="text-xs font-black text-blue-600 uppercase mb-2">Core Subjects</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {DATA[grade].subjects.map(s => (
+                      <span key={s} className="bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded font-bold">{s}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Contact Section */}
+                <div className="mt-8 pt-6 border-t border-slate-100 no-print">
+                  <h3 className="text-center font-bold text-slate-600 mb-4 text-sm">Need more help?</h3>
+                  <button 
+                    onClick={sendWhatsApp}
+                    className="w-full bg-[#25D366] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-md"
+                  >
+                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.886.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.89 4.44-9.892 9.886-.001 2.125.593 3.456 1.574 5.111l-.973 3.558 3.691-.969z"/></svg>
+                    Chat on WhatsApp
+                  </button>
+                  <p className="text-[10px] text-center text-slate-400 mt-2">Connecting you to Machakos Education Support</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
