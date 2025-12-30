@@ -1,1 +1,1 @@
-# CBC-machakos
+# cbc-machakos
